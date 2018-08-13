@@ -1,0 +1,51 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}1-й способ определения цены на любой день. Продукт (ID: {{ product.id }}){% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/ways.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">1-й способ определения цены на любой день</h1>
+    <div class="container">
+        <h2 class="text-center">Продукт (ID: {{ product.id }})</h2>
+        <p><span class="font-weight-bold">Название:</span> {{ product.name }}</p>
+        <p><span class="font-weight-bold">Контент:</span> "{{ product.content }}"</p>
+        <p><span class="font-weight-bold">Дата создания продукта:</span> {{ product.createdAt|date("d.m.Y") }}</p>
+        <p><span class="font-weight-bold">Цена по умолчанию:</span> {{ product.basePrice }} грн</p>
+        <p>
+            <span class="font-weight-bold">Определить цену на любой день: </span>
+            {{ form(form, {'attr': {'novalidate': 'novalidate'}, 'attr': {'id': 'first_form_' ~ product.id}}) }}
+        </p>
+        <p id="first_price_{{ product.id }}"></p>
+        {% if product.interspaces[0] is defined %}
+            <p class="h4 text-center ways-interspaces">Скидки</p>
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Период</th>
+                        <th>Цена, грн</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for interspace in product.interspaces %}
+                        <tr>
+                            <td>{{ interspace.startDate|date("d.m.Y") }} - {{ interspace.finishDate|date("d.m.Y") }}</td>
+                            <td>{{ interspace.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <p class="h4 text-center ways-graphics">График изменения цен</p>
+        <div class="canvas-container" id="firstChartContainer_{{ product.id }}"></div>
+        <div class="h5 text-danger text-center" id="firstChartError_{{ product.id }}"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/firstSearchForm.js') }}"></script>
+    <script src="{{ asset('js/canvasjs/jquery.canvasjs.min.js') }}"></script>
+    <script src="{{ asset('js/firstChart.js') }}"></script>
+{% endblock %}

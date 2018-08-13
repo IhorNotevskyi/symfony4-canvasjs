@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+    <div class="container text-center">
+        <h1 class="display-3" style="margin: 100px 0 40px"><span class="text-danger">Упс!</span> Произошла ошибка</h1>
+        <h2 class="display-4">Сервер вернул</h2>
+        <h2 class="display-4 font-weight-bold" style="margin: 40px 0">"{{ status_code }} {{ status_text }}"</h2>
+        <div class="text-muted" style="line-height: 180%; letter-spacing: .9px">
+            <h4>Что-то пошло не так. Сообщите нам, что вы делали, когда произошла эта ошибка.</h4>
+            <h4>Мы исправим её как можно скорее. Извините за причиненные неудобства.</h4>
+        </div>
+    </div>
+{% endblock %}

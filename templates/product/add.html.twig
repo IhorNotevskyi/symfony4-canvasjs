@@ -1,0 +1,47 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Добавить новый продукт{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/add-edit.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">Добавить новый продукт</h1>
+    <div class="container">
+        {{ form_start(product_form) }}
+            {{ form_row(product_form.name) }}
+            <br>
+            {{ form_row(product_form.content) }}
+            <br>
+            {{ form_row(product_form.basePrice) }}
+            <br>
+            <p class="h5 font-weight-bold">Скидки</p>
+            <ul class="interspaces">
+                <hr>
+                {% set numberInterspace = 0 %}
+                {% for interspace in product_form.interspaces %}
+                    <div class="interspace_item" id="interspace_{{ numberInterspace }}">
+                        <li class="d-flex">
+                            <span>Период: </span>
+                            {{ form_row(interspace.startDate) }}
+                            <span>&emsp;&mdash;&emsp;</span>
+                            {{ form_row(interspace.finishDate) }}
+                        </li>
+                        <li>{{ form_row(interspace.price) }}</li>
+                        <button type="button" id="delete_interspace_{{ numberInterspace }}" class="d-inline btn btn-xs btn-default"><i class="fas fa-trash-alt text-danger"></i>&ensp;Удалить скидку</button>
+                        <hr>
+                    </div>
+                    {% set numberInterspace = numberInterspace + 1 %}
+                {% endfor %}
+            </ul>
+            <button type="button" id="add_interspace" class="btn btn-md btn-default"><i class="fas fa-plus text-success"></i>&ensp;Добавить скидку</button>
+            <hr>
+        {{ form_end(product_form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/interspaces.js') }}"></script>
+    <script src="{{ asset('js/first.js') }}"></script>
+{% endblock %}

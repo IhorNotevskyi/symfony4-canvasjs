@@ -1,0 +1,70 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Продукты{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">Продукты</h1>
+    <div class="d-flex justify-content-end">
+        <a href="{{ path('product_add') }}">
+            <button class="btn btn-lg btn-success">Добавить новый продукт</button>
+        </a>
+    </div>
+    <div class="table-responsive text-center">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(products, 'ID', 'bp.id') }}</th>
+                    <th>{{ knp_pagination_sortable(products, 'Наименование', 'bp.id') }}</th>
+                    <th>Контент</th>
+                    <th>{{ knp_pagination_sortable(products, 'Цена по умолчанию, грн', 'bp.id') }}</th>
+                    <th>Скидки</th>
+                    <th>Управление</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.content }}</td>
+                    <td>{{ product.basePrice }}</td>
+                    <td>
+                        {% for interspace in product.interspaces %}
+                            <hr>
+                            <span class="d-block">Период:&ensp;{{ interspace.startDate|date("d.m.Y") }} - {{ interspace.finishDate|date("d.m.Y") }}</span>
+                            <span class="d-block">Цена:&ensp;{{ interspace.price }} грн</span>
+                            {% if interspace %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('product_edit', { id: product.id }) }}">
+                            <button class="btn btn-md btn-primary">Изменить</button>
+                        </a>
+                        <a href="{{ path('product_first_way', { id: product.id }) }}">
+                            <button class="btn btn-md btn-secondary">Способ 1</button>
+                        </a>
+                        <a href="{{ path('product_second_way', { id: product.id }) }}">
+                            <button class="btn btn-md btn-secondary">Способ 2</button>
+                        </a>
+                        <button class="btn btn-md btn-danger delete-items" id="del_{{ product.id }}">Удалить</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+    <div class="pagination pagination-lg justify-content-center">
+        {{ knp_pagination_render(products) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/pagination.js') }}"></script>
+    <script src="{{ asset('js/delete.js') }}"></script>
+{% endblock %}
