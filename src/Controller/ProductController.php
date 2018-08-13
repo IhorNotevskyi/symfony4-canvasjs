@@ -204,8 +204,6 @@ class ProductController extends Controller
     {
         $formData = $request->get('form');
 
-        dump($formData); die;
-
         $daysInterval = range(1, 31);
         $monthsInterval = range(1, 12);
         $yearsInterval = range(2013, 2050);
